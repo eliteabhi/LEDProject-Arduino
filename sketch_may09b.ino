@@ -3,7 +3,7 @@
 int ledpin=2;
 boolean serialOn=false;
 boolean active=true;
-boolean led=true;
+int led=1;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -38,19 +38,34 @@ else if(analogRead(A1)==1023 && !serialOn)
   active=true;}
 
 
-if(led){
+if(led=1){
   if(active && analogRead(A2)!=1023)
   ledb(2);
 
   if(active)
   ledconst(2);}
 
-else if(!led){
+else if(led=2){
+  if(active && analogRead(A2)!=1023)
+  ledb(4);
+
+  if(active)
+  ledconst(4);}
+        
+else if(led=3){
+if(active && analogRead(A2)!=1023)
+  ledb(2);
+
+  if(active)
+  ledconst(2);}
+
   if(active && analogRead(A2)!=1023)
   ledb(4);
 
   if(active)
   ledconst(4);
+     
+}
 }
   
 
@@ -84,11 +99,15 @@ void ledconst(int x)
 
 void ledswitch(){
 
-if(analogRead(A0)==1023 && led)
-led=false;
+if(analogRead(A0)==1023 && led==1)
+{led=2;
+    Serial.println("hdhhdhdhdhdhdjsjs");}
 
-else if(analogRead(A0)==1023 && !led)
-led=true;
+else if(analogRead(A0)==1023 && led==2)
+led=1;
+    
+else if (analogRead(A4)==1023)
+led=3;
 
 }
 
