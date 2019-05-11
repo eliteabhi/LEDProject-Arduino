@@ -1,9 +1,12 @@
 //if return 1 use this: sudo chmod 666 /dev/ttyACM0
 
+//constants
 int ledpin=2;
 boolean serialOn=false;
 boolean active=true;
 int led=1;
+  //////////////////////
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -11,13 +14,16 @@ void setup() {
 Serial.println("hi");
 
 }
+    ////////////////////////
 
 void loop() {
   // put your main code here, to run repeatedly:
 
+    //prints state if A1 every 750ms
 Serial.println(analogRead(A1));
 delay(750);
 
+    //prints A1 hitting max(1023) w/serial on
 if(analogRead(A1)==1023 && serialOn)
 {
   Serial.println("1023 reaced, ending connection");
@@ -27,7 +33,9 @@ if(analogRead(A1)==1023 && serialOn)
   Serial.begin(9600);
 
 }
-
+        //////////////////////
+    
+    //tells A1 max(1023) hit w/ serial off
 else if(analogRead(A1)==1023 && !serialOn)
   {serialOn=true;
   Serial.println("please stop being at max");
@@ -36,22 +44,27 @@ else if(analogRead(A1)==1023 && !serialOn)
   if(analogRead(A1)!=1023 && !active)
   {Serial.println("Thank You");
   active=true;}
-
-
+     /////////////////////
+    
+//led-1 controls
 if(led=1){
   if(active && analogRead(A2)!=1023)
   ledb(2);
 
   if(active)
   ledconst(2);}
+    /////////////////////
 
+    //led-2 controls
 else if(led=2){
   if(active && analogRead(A2)!=1023)
   ledb(4);
 
   if(active)
   ledconst(4);}
-        
+        ///////////////////
+    
+    //both led-1 & led-2 controls
 else if(led=3){
 if(active && analogRead(A2)!=1023)
   ledb(2);
@@ -64,11 +77,12 @@ if(active && analogRead(A2)!=1023)
 
   if(active)
   ledconst(4);
-     
+     ////////////////////
+    
 }
 }
   
-
+//switch between 1,2,3
   if(active)
   ledswitch();
 
@@ -77,6 +91,7 @@ if(active && analogRead(A2)!=1023)
 
 }
 
+//blinks #x led/leds (default)
 void ledb(int x)
 {
 
@@ -86,6 +101,7 @@ void ledb(int x)
 
 }
 
+//keeps #x led/leds constant with pin A2
 void ledconst(int x)
 {
 
@@ -97,6 +113,7 @@ void ledconst(int x)
 
 }
 
+//switches led with pin A0
 void ledswitch(){
 
 if(analogRead(A0)==1023 && led==1)
