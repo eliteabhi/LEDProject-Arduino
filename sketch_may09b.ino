@@ -5,6 +5,7 @@ int ledpin=2;
 boolean serialOn=false;
 boolean active=true;
 int led=1;
+int cont=0;
   //////////////////////
 
 void setup() {
@@ -70,7 +71,7 @@ if(active && analogRead(A2)!=1023)
   ledb(2);
 
   if(active)
-  ledconst(2);}
+  ledconst(2);
 
   if(active && analogRead(A2)!=1023)
   ledb(4);
@@ -80,8 +81,30 @@ if(active && analogRead(A2)!=1023)
      ////////////////////
     
 }
+
+    //auto switching betweeen two leds
+else if(led==4 && active){
+        
+  if(cont<30000)
+{autoswitch(2);
+ delay(1);
+ cont++;
 }
-  
+        
+   if(cont>30000 && cont<60000)
+     {
+            autoswitch(4);
+            delay(1);
+            cont++;
+        }
+   if(cont==30000)
+    {
+            cont=1;
+            autoswitch(2);
+        }
+}
+    //////////////////////////
+
 //switch between 1,2,3
   if(active)
   ledswitch();
@@ -90,6 +113,8 @@ if(active && analogRead(A2)!=1023)
   //coms(com);
 
 }
+     ///////////////////////////
+
 
 //blinks #x led/leds (default)
 void ledb(int x)
@@ -100,6 +125,7 @@ void ledb(int x)
   pinMode(x,LOW);
 
 }
+     //////////////////////
 
 //keeps #x led/leds constant with pin A2
 void ledconst(int x)
@@ -111,9 +137,11 @@ void ledconst(int x)
     Serial.println("!!Constant power!!");
   }
 
+    ////////////////////////
+    
 }
 
-//switches led with pin A0
+//switches led/leds with pin A0
 void ledswitch(){
 
 if(analogRead(A0)==1023 && led==1)
@@ -125,8 +153,22 @@ led=1;
     
 else if (analogRead(A4)==1023)
 led=3;
+    
+else if(analogRead(A5)==1023)
+led=4;
 
 }
+       ////////////////////////
+
+//automatically switches between leds
+void autoswitch(x){
+    
+    if(analogRead(A5)==1023)
+    {   ledb(x);
+        ledconst();}
+    
+}
+       //////////////////////////
 
 void coms(String com)
 {
