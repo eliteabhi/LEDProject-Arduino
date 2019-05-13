@@ -161,11 +161,11 @@ led=4;
        ////////////////////////
 
 //automatically switches between leds
-void autoswitch(x){
+void autoswitch(int x){
     
     if(analogRead(A5)==1023)
     {   ledb(x);
-        ledconst();}
+        ledconst(x);}
     
 }
        //////////////////////////
